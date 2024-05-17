@@ -12,7 +12,7 @@ while True:
     print("Got a connection from %s" % str(addr))
 
     while True:
-        content = client.recv(1024)
+        content = client.recv(32)
 
         if not content:
             break
