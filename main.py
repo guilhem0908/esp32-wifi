@@ -42,7 +42,7 @@ while True:
                 break
             else:
                 # Print received data
-                print(f"Received data: {content.decode('utf8')}")
+                print(f"Received data: {content.decode('ascii')}")
 
         except ConnectionResetError:
             # In case of abrupt client disconnection
