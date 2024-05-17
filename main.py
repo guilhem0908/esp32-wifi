@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return Response("Thank you for connecting\r", mimetype='text/plain')
+    return Response("Thank you for connecting\r\n", mimetype='text/plain')
 
 
 if __name__ == "__main__":
