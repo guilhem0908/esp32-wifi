@@ -2,7 +2,7 @@ import socket
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-s.bind(("0.0.0.0", 80))
+s.bind(("0.0.0.0", 8080))
 s.listen(5)
 
 while True:
@@ -12,7 +12,7 @@ while True:
     print("Got a connection from %s" % str(addr))
 
     while True:
-        content = client.recv(32)
+        content = client.recv(1024)
 
         if not content:
             break
