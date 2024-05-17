@@ -23,6 +23,8 @@ while True:
 
     print(f"Got a connection from {addr}")
 
+    client.send(http_response.encode('utf-8'))
+
     while True:
         content = client.recv(1024)
 
@@ -30,8 +32,6 @@ while True:
             break
         else:
             print(f"Received data: {content.decode('utf-8')}")
-
-        client.send(http_response.encode('utf-8'))
 
     print("Closing connection")
     client.close()
