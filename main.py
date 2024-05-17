@@ -9,10 +9,10 @@ while True:
 
     client, addr = s.accept()
 
+    print("Got a connection from %s" % str(addr))
+
     while True:
         content = client.recv(32)
-            
-        print("Got a connection from %s" % str(addr))
     
         msg = 'Thank you for connecting' + "\r\n"
         client.send(msg.encode('ascii'))
