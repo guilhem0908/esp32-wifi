@@ -12,15 +12,15 @@ while True:
     print("Got a connection from %s" % str(addr))
 
     while True:
-        content = client.recv(32)
+        content = client.recv(1024)
 
-        
         if not content:
             break
-
+        else:
+            print("Received data: %s" % content.decode('utf-8'))
     
         msg = 'Thank you for connecting' + "\r\n"
-        client.send(msg.encode('ascii'))
+        client.send(msg.encode('utf-8'))
 
     print("Closing connection")
     client.close()
