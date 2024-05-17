@@ -26,12 +26,17 @@ while True:
     client.send(http_response.encode('utf-8'))
 
     while True:
-        content = client.recv(1024)
+        try:
+            content = client.recv(1024)
 
-        if not content:
+            if not content:
+                break
+            else:
+                print(f"Received data: {content.decode('utf-8')}")
+
+        except ConnectionResetError:
+            print("Connection was reset by client")
             break
-        else:
-            print(f"Received data: {content.decode('utf-8')}")
 
     print("Closing connection")
     client.close()
