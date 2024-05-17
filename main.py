@@ -29,7 +29,7 @@ while True:
     print(f"Got a connection from {addr}")
 
     # Send HTTP response
-    client.send(http_response.encode('utf-8'))
+    client.send(http_response.encode('ascii'))
 
     # Handle received data
     while True:
@@ -42,7 +42,7 @@ while True:
                 break
             else:
                 # Print received data
-                print(f"Received data: {content.decode('utf-8')}")
+                print(f"Received data: {content.decode('ascii')}")
 
         except ConnectionResetError:
             # In case of abrupt client disconnection
