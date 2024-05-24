@@ -24,6 +24,13 @@ def button_pressed():
 def get_action():
     return Response(current_action, mimetype='text/plain')
 
+@app.route("/reset_action", methods=['POST'])
+def reset_action():
+    global current_action
+    current_action = "arret"
+    print("Action reset to ARRET")
+    return Response("arret", mimetype='text/plain')
+
 if __name__ == "__main__":
     port = int(os.getenv('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
