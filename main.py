@@ -13,7 +13,7 @@ def button_pressed():
     if action == 'descend':
         # Gérer l'action de descente ici
         print("Bouton appuyé: DESCENDRE")
-        return Response("Bouton appuyé: DESCENDRE", mimetype='text/plain')
+        return Response("descendre", mimetype='text/plain')
     return Response("Action invalide", mimetype='text/plain')
 
 if __name__ == "__main__":
