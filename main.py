@@ -1,5 +1,7 @@
 from flask import Flask, Response, request
 import os
+import threading
+import time
 
 app = Flask(__name__)
 
@@ -24,13 +26,16 @@ def button_pressed():
 def get_action():
     return Response(current_action, mimetype='text/plain')
 
-@app.route("/reset_action", methods=['POST'])
 def reset_action():
     global current_action
-    current_action = "arret"
-    print("Action reset to ARRET")
-    return Response("arret", mimetype='text/plain')
+    while True:
+        time.sleep(30)  # Vérifier toutes les 30 secondes
+        if not threading.main_thread().is_alive():
+            current_action = "arret"
+            print("Action reset to 'arret' due to client disconnect.")
 
 if __name__ == "__main__":
     port = int(os.getenv('PORT', 8080))
+    reset_thread = threading.Thread(target=reset_action)
+    reset_thread.start()
     app.run(host='0.0.0.0', port=port)
