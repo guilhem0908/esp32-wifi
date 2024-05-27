@@ -1,41 +1,40 @@
-from flask import Flask, Response, request
-import os
+from flask import Flask, Response, request, jsonify
 import threading
 import time
+import requests
 
 app = Flask(__name__)
 
-# Variable globale pour stocker l'action
-current_action = "arret"  # Valeur par défaut
+volet_status = {"status": "unknown"}  # Variable globale pour stocker l'état du volet
 
 @app.route("/")
 def home():
-    return Response("Merci de vous être connecté\r\n", mimetype='text/plain')
+    return Response("Thank you for connecting\r\n", mimetype='text/plain')
 
-@app.route("/button_pressed", methods=['POST'])
-def button_pressed():
-    global current_action
-    action = request.form.get('action')
-    if action in ['descend', 'monte', 'ouvert', 'arret']:
-        current_action = action
-        print(f"Bouton appuyé: {action.upper()}")
-        return Response(action, mimetype='text/plain')
-    return Response("Action invalide", mimetype='text/plain')
+@app.route("/update_status", methods=['POST'])
+def update_status():
+    global volet_status
+    volet_status['status'] = request.form.get('status')
+    return jsonify(volet_status)
 
-@app.route("/get_action", methods=['GET'])
-def get_action():
-    return Response(current_action, mimetype='text/plain')
+@app.route("/get_status")
+def get_status():
+    return jsonify(volet_status)
 
-def reset_action():
-    global current_action
-    while True:
-        time.sleep(30)  # Vérifier toutes les 30 secondes
-        if not threading.main_thread().is_alive():
-            current_action = "arret"
-            print("Action reset to 'arret' due to client disconnect.")
+shutdown_event = threading.Event()
+
+def run_flask():
+    port = int(os.getenv('PORT', 8080))
+
+    def check_shutdown():
+        while not shutdown_event.is_set():
+            time.sleep(0.1)
+        os._exit(0)
+
+    check_thread = threading.Thread(target=check_shutdown)
+    check_thread.start()
+
+    app.run(host='0.0.0.0', port=port, debug=False, use_reloader=False)
 
 if __name__ == "__main__":
-    port = int(os.getenv('PORT', 8080))
-    reset_thread = threading.Thread(target=reset_action)
-    reset_thread.start()
-    app.run(host='0.0.0.0', port=port)
+    run_flask()
