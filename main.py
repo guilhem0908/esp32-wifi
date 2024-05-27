@@ -1,3 +1,5 @@
+import os
+import pygame
 from flask import Flask, Response, request, jsonify
 import threading
 import time
