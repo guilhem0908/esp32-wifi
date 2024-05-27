@@ -13,7 +13,6 @@ def home():
 @app.route("/button_pressed", methods=['POST'])
 def button_pressed():
     action = request.form.get('action')
-    # Mettre à jour le statut du volet selon l'action
     if action in ["descend", "monte", "arret"]:
         volet_status["status"] = action
     return jsonify({"action": action})
