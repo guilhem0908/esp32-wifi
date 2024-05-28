@@ -20,7 +20,7 @@ def button_pressed():
 @app.route("/update_status", methods=['POST'])
 def update_status():
     status = request.form.get('status')
-    if status in ["ferme", "ouvert"]:
+    if status in ["ferme", "ouvert", "descend", "monte", "arret"]:
         volet_status["status"] = status
     return jsonify(volet_status)
 
